@@ -1331,7 +1331,7 @@
           <div class="contact-icon">📞</div>
           <div class="contact-detail">
             <strong>Телефон</strong>
-            <span>8-701-778-17-51</span>
+            <span>+7 701 778 17 51</span>
           </div>
         </div>
         <div class="contact-row">
@@ -1380,7 +1380,7 @@
           <textarea placeholder="Опишите ваш запрос или задайте вопрос..."></textarea>
         </div>
         <button class="btn-primary" onclick="handleSubmit(event)" style="border:none; width:100%; padding:1.1rem; font-size:0.85rem; cursor:pointer;">
-          Отправить заявку
+          Получить бесплатную консультацию
         </button>
         <p style="font-size:0.78rem; color:var(--brown); text-align:center; margin-top:0.5rem;">
           Нажимая кнопку, вы соглашаетесь на обработку персональных данных
@@ -1472,16 +1472,27 @@
       });
     });
 
-    // Form submit
+    // Form submit → WhatsApp
     function handleSubmit(e) {
       e.preventDefault();
       const btn = e.target;
-      btn.textContent = '✓ Заявка отправлена!';
-      btn.style.background = '#5A8A3E';
+      const form = btn.closest('.contact-form');
+      const name = form.querySelector('input[type="text"]').value.trim() || 'не указано';
+      const phone = form.querySelector('input[type="tel"]').value.trim() || 'не указан';
+      const category = form.querySelector('select').value || 'не выбрана';
+      const message = form.querySelector('textarea').value.trim() || '';
+
+      const text = `Новая заявка с сайта TSC Мебель:\n\n👤 Имя: ${name}\n📞 Телефон: ${phone}\n🪑 Категория: ${category}${message ? '\n💬 Сообщение: ' + message : ''}`;
+      const waUrl = 'https://wa.me/77017781751?text=' + encodeURIComponent(text);
+
+      btn.textContent = '✓ Переходим в WhatsApp...';
+      btn.style.background = '#25D366';
+
       setTimeout(() => {
-        btn.textContent = 'Отправить заявку';
+        window.open(waUrl, '_blank');
+        btn.textContent = 'Получить бесплатную консультацию';
         btn.style.background = '';
-      }, 3000);
+      }, 800);
     }
 
     // Smooth nav appearance on scroll
